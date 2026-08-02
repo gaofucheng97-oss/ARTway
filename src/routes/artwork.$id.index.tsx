@@ -1,6 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { Bookmark, Info, Headphones, Users, Navigation, ChevronRight, ImageIcon } from "lucide-react";
-import { useState } from "react";
+import { Bookmark, Info, Headphones, Users, Navigation, ChevronRight, ExternalLink } from "lucide-react";
 import { MobileShell, AppHeader } from "@/components/MobileShell";
 import { getArtwork } from "@/data/content";
 import { useJourney } from "@/lib/journey";
@@ -25,11 +24,10 @@ function ArtworkDetails() {
   const { artwork } = Route.useLoaderData();
   const { isSaved, toggleSaved } = useJourney();
   const saved = isSaved(artwork.id);
-  const [slide, setSlide] = useState(0);
 
   const actions = [
     { icon: Info, label: "Overview", to: "/artwork/$id" as const, params: { id: artwork.id } },
-    { icon: Headphones, label: "Listen", to: "/artwork/$id/audio" as const, params: { id: artwork.id } },
+    ...(artwork.hasAudio ? [{ icon: Headphones, label: "Listen", to: "/artwork/$id/audio" as const, params: { id: artwork.id } }] : []),
     { icon: Users, label: "Community", to: "/community" as const, params: undefined },
     { icon: Navigation, label: "Visit", to: "/artwork/$id/scan" as const, params: { id: artwork.id } },
   ];
@@ -53,27 +51,25 @@ function ArtworkDetails() {
       />
 
       <div className="px-4 pb-6 pt-4">
-        {/* Image placeholder */}
-        <div className="relative flex aspect-[16/11] items-center justify-center rounded-2xl border border-border bg-muted/60">
-          <ImageIcon className="h-14 w-14 text-muted-foreground/60" strokeWidth={1.2} />
-          <div className="absolute inset-x-0 bottom-3 flex justify-center gap-1.5">
-            {[0, 1, 2, 3].map((i) => (
-              <button
-                key={i}
-                onClick={() => setSlide(i)}
-                aria-label={`Slide ${i + 1}`}
-                className={cn(
-                  "h-1.5 rounded-full transition-all",
-                  slide === i ? "w-4 bg-foreground" : "w-1.5 bg-border",
-                )}
-              />
-            ))}
+        <div className="relative aspect-[16/11] overflow-hidden rounded-2xl border border-border bg-muted/60">
+          <img src={artwork.image} alt={artwork.title} className="h-full w-full object-cover" />
+          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 to-transparent px-3 pb-3 pt-8">
+            <p className="text-[10px] text-white/90">{artwork.imageCredit}</p>
           </div>
         </div>
 
         <h2 className="mt-4 text-2xl font-semibold">{artwork.title}</h2>
         <p className="mt-1 text-sm text-muted-foreground">{artwork.year}</p>
         <p className="mt-3 text-sm leading-relaxed text-foreground">{artwork.description}</p>
+
+        <a
+          href={artwork.sourceUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-muted-foreground underline underline-offset-2"
+        >
+          Official artwork details <ExternalLink className="h-3.5 w-3.5" />
+        </a>
 
         {/* Four action tiles */}
         <div className="mt-4 grid grid-cols-4 gap-2">

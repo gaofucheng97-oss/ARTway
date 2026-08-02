@@ -36,8 +36,8 @@ const routeTypeMeta: Record<CuratedRoute["type"], { label: string; icon: typeof 
 // Pick one of each type for the Start Tour panel
 const tourRoutes: CuratedRoute[] = [
   curatedRoutes.find((r) => r.type === "quick")!,
-  { ...curatedRoutes.find((r) => r.type === "deep")!, type: "recommend" as const, id: "hidden-makers-trail", name: "Hidden Makers Trail" },
-  curatedRoutes.find((r) => r.id === "temple-quarter-stories")!,
+  curatedRoutes.find((r) => r.type === "recommend")!,
+  curatedRoutes.find((r) => r.type === "deep")!,
 ].filter(Boolean);
 
 function Home() {

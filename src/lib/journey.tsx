@@ -32,23 +32,23 @@ interface JourneyContextValue extends JourneyState {
   hasStamp: (id: string) => boolean;
 }
 
-const STORAGE_KEY = "hhg-journey-v1";
+const STORAGE_KEY = "hhg-journey-v2";
 
 const defaultState: JourneyState = {
-  saved: ["mirror-maze"],
+  saved: ["follow-me"],
   visited: ["hollow"],
   stamps: ["first-visit", "hollow"],
-  savedStories: ["charting-change:before"],
+  savedStories: ["hollow:forest"],
   contributions: [
     {
       ...featuredContributions[3],
       id: "mine-1",
       contributor: "You",
       privacy: "private",
-      preview: "\"I finally looked up on my walk to class.\"",
+      preview: "A reflection on mirrors and movement.",
     },
   ],
-  activeRoute: { routeId: "campus-quick-walk", completed: ["hollow"] },
+  activeRoute: { routeId: "royal-fort-gardens", completed: ["hollow"] },
 };
 
 const JourneyContext = createContext<JourneyContextValue | null>(null);
