@@ -1,0 +1,116 @@
+{
+  "version": 1,
+  "sdk_version": "0.24.0",
+  "path": "/mcp",
+  "auth": {
+    "type": "none"
+  },
+  "mcp": {
+    "server": {
+      "name": "artwork-guide-mcp",
+      "version": "0.1.0",
+      "title": "Artwork Guide"
+    },
+    "tools": [
+      {
+        "name": "list_artworks",
+        "title": "List artworks",
+        "description": "List all public artworks in the Artwork Guide, optionally filtered by area (campus, temple, or city). Returns id, title, artist, year, area, location, hook, and tags.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "area": {
+              "description": "Optional area filter.",
+              "type": "string",
+              "enum": [
+                "campus",
+                "temple",
+                "city"
+              ]
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_artwork",
+        "title": "Get artwork details",
+        "description": "Get the full details for a single artwork by id, including artist bio, description, stories, audio guide info, accessibility, and location.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The artwork id, e.g. 'charting-change'."
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_routes",
+        "title": "List curated routes",
+        "description": "List curated walking routes through Bristol public art. Optionally filter by route type: quick, recommend, or deep.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "quick",
+                "recommend",
+                "deep"
+              ]
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_route",
+        "title": "Get curated route",
+        "description": "Get a curated route by id, including its ordered list of artwork stops with titles and locations.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The route id, e.g. 'temple-quarter-stories'."
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
